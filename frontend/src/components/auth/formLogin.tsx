@@ -1,6 +1,5 @@
 "use client"
 
-import { Icon } from '@iconify/react'
 import Image from 'next/image'
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -19,14 +18,14 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
-const formSchema = z.object({
+const SigninFormSchema = z.object({
   email: z.string()
-    .min(8)
-    .max(50)
+    .min(8, { message: 'Debe contener al menos 8 caracteres' })
+    .max(50, { message: 'Debe contener maximo 50 caracteres' })
     .regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,'Ingrese un correo valido'),
   password: z.string()
-    .min(8)
-    .max(16)
+    .min(8, { message: 'Debe contener al menos 8 caracteres' })
+    .max(16, { message: 'Debe contener maximo 16 caracteres' })
     .regex(/\d/,'Debe contener al menos un número')
     .regex(/[A-Z]/,'Debe contener al menos un letra en mayúscula')
     .regex(/[a-z]/,'Debe contener al menos un letra en minúscula')
@@ -34,15 +33,15 @@ const formSchema = z.object({
 })
 
 export function ProfileForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof SigninFormSchema>>({
+    resolver: zodResolver(SigninFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof SigninFormSchema>) {
     console.log(values)
   }
 
@@ -54,12 +53,10 @@ export function ProfileForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              {/* <FormLabel>Email</FormLabel> */}
               <FormControl>
                 <Input 
-                  type="email " 
                   placeholder="Correo electrónico" 
-                  className="text-xs rounded-xl"
+                  className="text-md rounded-xl"
                   {...field} />
               </FormControl>
               <FormMessage />
@@ -71,24 +68,24 @@ export function ProfileForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              {/* <FormLabel>Password</FormLabel> */}
               <FormControl>
-                <Input 
-                  type="password" 
+                <Input  
                   placeholder="Contraseña" 
-                  className="text-xs rounded-xl"
+                  className="text-md rounded-xl"
                   {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <a href='#' className='block opacity-75 text-xs w-full text-right'>Olvidaste tu contraseña?</a>
         <Button 
           type="submit"
-          className="text-xs text-white bg-primary hover:opacity-85 rounded-xl w-full"
+          className="bg-primary hover:opacity-85 rounded-xl w-full"
         >
-          Continuar
+          <span className='text-md text-white'>Continuar</span>
         </Button>
+      
         <div className="flex space-x-2 w-full">
           <Button 
             className="outline outline-1 outline-gray-200 rounded-xl w-full bg-transparent hover:bg-inherit space-x-1"
@@ -100,23 +97,22 @@ export function ProfileForm() {
               height={20}
               priority 
             />
-            <span className="text-xs text-black">Google</span>
+            <span className="text-md text-black">Google</span>
           </Button>
           <Button 
-            className="outline outline-1 outline-gray-200 rounded-xl w-full bg-transparent hover:bg-inherit"
+            className="outline outline-1 outline-gray-200 rounded-xl w-full bg-transparent hover:bg-inherit space-x-1"
           >
             <Image
               src={'/icons/icons-apple.svg'}
               alt="Apple Logo"
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               priority 
             />
-            <span className="text-xs text-black">Apple</span>
+            <span className="text-md text-black">Apple</span>
           </Button>
         </div>
       </form>
-    
     </Form>
   )
 }

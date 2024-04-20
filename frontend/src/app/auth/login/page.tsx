@@ -8,8 +8,8 @@ export default function Login() {
         <Image
           src={'/LogoRecipes.svg'}
           alt="Recipes Logo"
-          width={120}
-          height={120}
+          width={160}
+          height={160}
           priority 
         />
         <ProfileForm></ProfileForm>

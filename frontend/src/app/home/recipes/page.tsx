@@ -43,14 +43,14 @@ export default function Recipes() {
     <Card className="w-52 h-48">
       <CardContent className="p-2">
         <div>
-          <img src="/img/food.jpg" alt="asd" className="rounded-lg w-full"/> {/* mejorar la carga de imagen */}
+          <img src="/img/food.jpg" alt="asd" className="rounded-lg w-full select-none"/> {/* mejorar la carga de imagen */}
         </div>
       </CardContent>
       <CardFooter className="pl-2 pr-2">
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
             <h3 className="text-md font-medium"> Rice Wiee </h3>
-            <div className="flex text-xs opacity-75 space-x-1">
+            <div className="flex text-xs opacity-75 space-x-1 select-none">
               <div className="flex justify-center items-center space-x-1">
                 <Icon icon="solar:clock-circle-outline" />
                 <span>15 min</span>

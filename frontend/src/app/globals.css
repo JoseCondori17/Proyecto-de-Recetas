@@ -13,10 +13,11 @@
       --popover: 0 0% 100%;
       --popover-foreground: 224 71.4% 4.1%;
 
-      --primary: 36 100% 59%;
-      --primary-foreground: 210 20% 98%;
+      /* se cambio a rgba */
+      --primary: 255, 170, 44; 
+      --primary-foreground: 255, 255, 255;
 
-      --secondary: 177 78% 30%;
+      --secondary: #118A83;
       --secondary-foreground: 220.9 39.3% 11%;
 
       --muted: 220 14.3% 95.9%;
@@ -25,7 +26,7 @@
       --accent: 220 14.3% 95.9%;
       --accent-foreground: 220.9 39.3% 11%;
 
-      --destructive: 0 62% 63%;
+      --destructive: #DB6565;
       --destructive-foreground: 210 20% 98%;
 
       --border: 220 13% 91%;

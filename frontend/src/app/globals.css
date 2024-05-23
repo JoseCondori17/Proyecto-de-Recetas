@@ -28,8 +28,7 @@
 
       --destructive: #DB6565;
       --destructive-foreground: 210 20% 98%;
-
-      --border: 220 13% 91%;
+      --border: 202, 202, 202;
       --input: 220 13% 91%;
       --ring: 224 71.4% 4.1%;
 

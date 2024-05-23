@@ -22,7 +22,7 @@ interface IconProps {
   bold: React.ReactNode
 }
 
-export default function Recipes() {
+export function CardRecipe() {
 
   const [icons, setIcons] = React.useState<IconProps[]>([
     {
@@ -46,7 +46,7 @@ export default function Recipes() {
   };
 
   return (
-    <Card className="w-52 h-48">
+    <Card className="w-full h-full">
       <CardContent className="p-2">
         <Image
           src={'/img/food.jpg'} 
@@ -56,11 +56,11 @@ export default function Recipes() {
           className='rounded-lg w-full select-none'
         />
       </CardContent>
-      <CardFooter className="pl-2 pr-2">
+      <CardFooter className="pl-2 pr-2 pb-2">
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
             <h3 className="text-md font-medium"> Rice Wiee </h3>
-            <div className="flex text-xs opacity-75 space-x-1 select-none">
+            <div className="flex max-sm:hidden text-xs opacity-75 space-x-1 select-none">
               <div className="flex justify-center items-center space-x-1">
                 <ClockIcon></ClockIcon>
                 <span>15 min</span>

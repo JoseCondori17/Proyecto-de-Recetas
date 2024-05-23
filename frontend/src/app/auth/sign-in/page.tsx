@@ -52,7 +52,7 @@ export default function SignIn() {
               </Button>
             </div>
             <p className='text-xs opacity-75 text-center'>
-              No tienes una cuenta? <Link href={'/auth/signup'} className='font-bold'>Registrate</Link>
+              No tienes una cuenta? <Link href={'/auth/sign-up'} className='font-bold'>Registrate</Link>
             </p>
             </div>
           </div>

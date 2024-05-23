@@ -24,7 +24,7 @@ export default function SignUp() {
             <h1 className='text-5xl max-md:text-3xl text-center font-normal'>¡Bienvenido a la Aventura!</h1>
             <SignUpForm></SignUpForm>
             <p className='text-xs opacity-75 text-center'>
-              Ya tienes una cuenta? <Link href={'/auth/signin'} className='font-bold'>Inicia sesión</Link>
+              Ya tienes una cuenta? <Link href={'/auth/sign-in'} className='font-bold'>Inicia sesión</Link>
             </p>
           </div>
         </div>

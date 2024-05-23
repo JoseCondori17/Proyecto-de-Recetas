@@ -28,8 +28,40 @@ export function SignUpForm() {
     },
   })
   
-  function onSubmit(values: z.infer<typeof SignUpSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof SignUpSchema>) {
+    const url = 'https://z6gveccla8.execute-api.us-east-1.amazonaws.com/Prueba/recetas/registro'
+
+    const value = {
+      'Username': values['firstName'][0]+values['lastName'][0]+values['email'][1],
+      'Correo_electronico': values['email'],
+      'Contrasena': values['password'],
+      'Nombre_y_apellidos': values['firstName'] + ' ' + values['lastName'],
+      'Edad': 0,
+      'Fecha_de_nacimiento': '',
+      'Sexo': '',
+      'Presentacion': '',
+      'Num_seguidores': 0,
+      'Num_seguidos': 0
+    }
+
+    const requestOptions: RequestInit = {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify(value)
+    };
+
+    try {
+      const response = await fetch(url, requestOptions);
+      if (response.ok) {
+        console.log('Registro exitoso');
+      } else {
+        console.error('Error al registrar:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   }
 
   return (

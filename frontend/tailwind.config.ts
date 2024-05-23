@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+import { nextui } from "@nextui-org/react";
 
 const config = {
   content: [
@@ -6,6 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
 	],
   prefix: "",
   theme: {
@@ -18,7 +20,7 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: "rgb(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -26,7 +28,7 @@ const config = {
         primary: {
           DEFAULT: "rgb(var(--primary))",
           foreground: "rgb(var(--primary-foreground))",
-          opacity: "rgba(var(--primary), 0.15)",
+          opacity: "rgba(var(--primary), 0.20)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -74,7 +76,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), nextui()],
 } satisfies Config
 
 export default config

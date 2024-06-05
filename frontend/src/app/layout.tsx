@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 //import { NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
 
-const inter = DM_Sans({ subsets: ["latin"] });
+const inter = Comfortaa({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen flex` }>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

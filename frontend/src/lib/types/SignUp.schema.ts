@@ -1,8 +1,7 @@
 import { z } from "zod"
 
 export const SignUpSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
+  name: z.string(),
   email: z.string()
     .min(8, { message: 'Debe contener al menos 8 caracteres' })
     .max(50, { message: 'Debe contener maximo 50 caracteres' })

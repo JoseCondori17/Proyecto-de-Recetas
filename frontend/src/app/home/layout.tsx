@@ -1,16 +1,20 @@
-import { MainContent } from '@/components/containers/MainContent';
-import { SideBar } from '@/components/containers/SideBar';
-import React from 'react';
+import { SideBar } from '@/containers/SideBar';
+import { Separator } from "@/components/ui/separator"
 
-const Layout = ({ children} : Readonly<{children:React.ReactNode}>) => {
+export default function ManagementLayout({ 
+  children,
+ }: Readonly<{
+  children: React.ReactNode
+}>){  
   return (
-    <>
+    <div className="flex h-screen">
       <SideBar/>
-      <main>
+      <Separator className="w-[1px] bg-neutral-200" orientation="vertical"></Separator>
+      <div className="flex-1 m-5">
+        {/* <HeaderNav name={'Eduardo Condori'} role={'Administrator'}></HeaderNav> */}
+        {/* <Separator className="bg-neutral-200 h-[1px]"></Separator> */}
         {children}
-      </main>
-    </>
+      </div>
+    </div>
   )
 }
-
-export default Layout;

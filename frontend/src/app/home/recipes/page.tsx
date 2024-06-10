@@ -20,18 +20,18 @@ export default function Recipes() {
         <div className='flex-1'>
           <span className='text-md'>All Recipes</span>
           <div className='flex flex-wrap gap-4'>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-          <CardGeneral/>
-        </div>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+            <CardGeneral/>
+          </div>
         </div>
       </div>
     </div>

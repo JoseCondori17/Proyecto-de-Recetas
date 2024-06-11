@@ -9,10 +9,10 @@ type CommentFormProps = {
 const CommentForm: React.FC<CommentFormProps> = ({ onAddComment }) => {
   const [comment, setComment] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment.trim()) {
-      onAddComment(comment);
+      await onAddComment(comment);
       setComment("");
     }
   };

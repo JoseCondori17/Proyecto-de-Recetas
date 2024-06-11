@@ -1,3 +1,4 @@
+// components/Recommendations.js
 import Link from "next/link";
 
 const Recommendations = () => {

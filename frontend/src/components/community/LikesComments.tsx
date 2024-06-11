@@ -1,14 +1,22 @@
-// components/BuscadorPerfil.js
-const BuscadorPerfil = () => {
+type Comment = {
+    id: number;
+    user: string;
+    text: string;
+  };
+  
+  type LikesCommentsProps = {
+    comments?: Comment[];  // comments ahora es opcional
+    likes: number;
+  };
+  
+  const LikesComments: React.FC<LikesCommentsProps> = ({ comments = [], likes }) => {
     return (
-        <div className="ml-4 relative flex flex-1 flex-shrink-0">
-            <label htmlFor="search" className="sr-only">Search</label>
-            <input
-            className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-            placeholder={'Buscar Perfil...'}/>
-        </div>
+      <div className="bg-white p-4 rounded-lg flex justify-between items-center shadow-md mt-4 w-full">
+        <p>Likes: {likes}</p>
+        <p>Comments: {comments.length}</p>
+      </div>
     );
   };
   
-  export default BuscadorPerfil;
+  export default LikesComments;
   

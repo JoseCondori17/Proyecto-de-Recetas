@@ -11,7 +11,11 @@ import { FavoritesBoldIcon } from '@/components/icons/FavoritesBoldIcon'
 import { SaveBoldIcon } from '@/components/icons/SaveBoldIcon'
 import React from 'react'
 
-export function CardGeneral(){
+interface CardGeneralProps {
+  recipe: any
+}
+
+export function CardGeneral({ recipe }: CardGeneralProps){
   interface IconProps {
     name: string
     active: boolean
@@ -41,11 +45,12 @@ export function CardGeneral(){
   };
 
   return (
-    <Card className="w-52 h-48">
+    <Card className="w-full h-full sm:w-80 sm:h-96 md:w-64 md:h-56 lg:w-52 lg:h-48 xl:w-52 xl:h-48">
       <CardContent className="p-2">
         <Image
-          src={'/img/food.jpg'} 
-          alt='image' 
+          src={recipe.image} 
+          alt={recipe.id}
+          unoptimized
           width={550}
           height={367}
           className='rounded-lg w-full select-none'
@@ -54,11 +59,11 @@ export function CardGeneral(){
       <CardFooter className="pl-2 pr-2">
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <h3 className="text-md font-medium"> Rice Wiee </h3>
+            <h3 className="text-md font-medium">{recipe.title.split(' ')[0]} </h3>
             <div className="flex text-xs opacity-75 space-x-1 select-none">
               <div className="flex justify-center items-center space-x-1">
                 <ClockIcon></ClockIcon>
-                <span>15 min</span>
+                <span>{recipe.readyInMinutes} min</span>
               </div>
               <span>&#8226;</span>
               <span>12 kcal</span>

@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -19,7 +19,8 @@ import { SignInSchema } from "@/lib/types/SignIn.schema"
 
 /* interface SignInFormProps{} */
 
-export function SignInForm() {
+const SignInForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -28,8 +29,30 @@ export function SignInForm() {
     }
   }) 
 
-  function onSubmit(values: z.infer<typeof SignInSchema>){
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof SignInSchema>){
+    const body = {
+      'Correo_electronico': values.email,
+      'Contrasena': values.password,
+    }
+    try {
+      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to register user');
+      } else {
+        router.push("/home");
+      }
+    } catch (error) {
+      /* setError(error.message || 'Failed to register user'); */
+      console.log(body)
+      /* console.log('Failed', error, body) */
+    }
   }
 
   return (
@@ -90,3 +113,5 @@ export function SignInForm() {
     </Form>
   )
 }
+
+export default SignInForm;

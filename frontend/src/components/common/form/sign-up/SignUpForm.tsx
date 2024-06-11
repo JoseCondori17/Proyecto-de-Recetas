@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -17,9 +17,10 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { SignUpSchema } from "@/lib/types/SignUp.schema"
 
-/* interface SignInFormProps{} */
+/* interface SignUpFormProps{} */
 
-export function SignUpForm() {
+const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -29,9 +30,40 @@ export function SignUpForm() {
     }
   }) 
 
-  function onSubmit(values: z.infer<typeof SignUpSchema>){
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof SignUpSchema>){
+    const body = {
+      'Username': values.email.slice(0, 1) + values.name.slice(2, 3) + values.email.slice(1, 2),
+      'Correo_electronico': values.email,
+      'Contrasena': values.password,
+      'Nombre_y_apellidos': values.name,
+      "Edad": 20, 
+      "Fecha_de_nacimiento": "1999-01-01",
+      "Sexo": "Masculino",
+      "Presentacion": "Hola, soy un usuario de ejemplo.",
+      "Num_seguidores": 10,
+      "Num_seguidos": 5
+    }
+    try {
+      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to register user');
+      } else {
+        router.push("/home/recipes");
+      }
+    } catch (error) {
+      /* setError(error.message || 'Failed to register user'); */
+      console.log(body)
+      /* console.log('Failed', error, body) */
+    }
   }
+
 
   return (
     <Form {...form}>
@@ -51,7 +83,7 @@ export function SignUpForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="email"                  
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
@@ -60,7 +92,7 @@ export function SignUpForm() {
               </FormControl>
               <FormMessage />
             </FormItem>
-          )}
+          )}                                                                                                                                                                                                        
         />
         <FormField
           control={form.control}
@@ -104,3 +136,5 @@ export function SignUpForm() {
     </Form>
   )
 }
+
+export default SignUpForm;

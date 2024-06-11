@@ -1,4 +1,4 @@
-import { SignInSection } from "@/containers/auth-page/sign-in-section/signInSection";
+import SignInSection from "@/containers/auth-page/sign-in-section/signInSection";
 
 interface SignInProps {}
 

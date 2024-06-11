@@ -41,7 +41,7 @@ export function CardGeneral(){
   };
 
   return (
-    <Card className="w-52 h-48">
+    <Card className="w-full h-full sm:w-80 sm:h-96 md:w-60 md:h-56 lg:w-52 lg:h-48 xl:w-52 xl:h-48">
       <CardContent className="p-2">
         <Image
           src={'/img/food.jpg'} 

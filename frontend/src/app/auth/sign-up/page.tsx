@@ -1,4 +1,5 @@
-import { SignUpSection } from "@/containers/auth-page/sign-up-section/signUpSection";
+import SignUpSection from "@/containers/auth-page/sign-up-section/signUpSection";
+import { NextPage } from 'next';
 
 interface SignUpProps {}
 

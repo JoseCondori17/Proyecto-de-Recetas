@@ -1,14 +1,12 @@
-import { SignUpForm } from "@/components/common/form/sign-up/SignUpForm"
+import SignUpForm from "@/components/common/form/sign-up/SignUpForm"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 
-export function SignUpSection(){
+const SignUpSection = () => {
   return (
     <Card>
       <CardHeader>
@@ -20,3 +18,5 @@ export function SignUpSection(){
     </Card>
   )
 }
+
+export default SignUpSection;

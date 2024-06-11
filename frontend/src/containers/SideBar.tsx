@@ -30,10 +30,9 @@ export function SideBar(){
   return (
     <aside className='flex flex-col justify-between'>
       <nav className='flex flex-col items-center gap-4 px-2 sm:py-4'>
-        {/* Esto no debe ser un enlace, corregir */}
-        <Link href={'#'} className='flex h-9 w-9 items-center justify-center'> 
+        <button className='flex h-9 w-9 items-center justify-center'> 
           <ArrowRightIcon />
-        </Link>
+        </button>
         <Separator orientation='horizontal' className='h-[1px] w-6 align-middle bg-border'/>
         <ul className='space-y-3 flex flex-col justify-center'>
           {menuItems.map((item, index) => (

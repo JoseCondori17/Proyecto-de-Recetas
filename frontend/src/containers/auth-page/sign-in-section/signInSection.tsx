@@ -1,4 +1,4 @@
-import { SignInForm } from "@/components/common/form/sign-in/SignInForm"
+import SignInForm from "@/components/common/form/sign-in/SignInForm"
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-export function SignInSection(){
+const SignInSection = () => {
   return (
     <Card>
       <CardHeader>
@@ -20,3 +20,5 @@ export function SignInSection(){
     </Card>
   )
 }
+
+export default SignInSection;

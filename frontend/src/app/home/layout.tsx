@@ -17,7 +17,6 @@ export default function ManagementLayout({
         {children}
       </div>
       <style jsx>{`
-        /* Estilo CSS personalizado para ocultar el scrollbar en navegadores WebKit */
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }

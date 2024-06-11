@@ -35,7 +35,7 @@ const SignInForm = () => {
       'Contrasena': values.password,
     }
     try {
-      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/registro', {
+      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

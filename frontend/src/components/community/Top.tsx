@@ -1,6 +1,6 @@
 // components/Top.js
 import { Button } from "@/components/ui/button";
-import BuscadorPerfil from "./LikesComments";
+import BuscadorPerfil from "./BuscadorPerfil"; // Cambia esto para importar BuscadorPerfil
 
 const Top = ({ className = "" }) => {
   return (

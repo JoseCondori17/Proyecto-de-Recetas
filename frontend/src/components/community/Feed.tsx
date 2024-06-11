@@ -27,14 +27,13 @@ const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
   };
 
   return (
-    <div className={`bg-white rounded-lg p-4  mt-4 shadow-md ${className} flex`}>
+    <div className={`bg-white rounded-lg p-4 mt-4 shadow-md ${className} flex`}>
       <div className="flex-1 pr-10 flex flex-col"> {/* Columna izquierda con contenido y formulario */}
         <div>
           <div className="border-b pb-4 mb-4">
             <h2 className="text-xl font-bold">Swaa Lee</h2>
             <p>What a delicious dish!!!!!</p>
           </div>
-          {/* Mueve el CommentForm fuera de este div para que esté al final */}
         </div>
         <div className="mt-auto"> {/* Asegura que el CommentForm esté en la parte inferior */}
           <CommentForm onAddComment={addComment} />

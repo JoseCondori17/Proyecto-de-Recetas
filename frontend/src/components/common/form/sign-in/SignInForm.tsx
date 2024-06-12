@@ -34,24 +34,24 @@ const SignInForm = () => {
       'Correo_electronico': values.email,
       'Contrasena': values.password,
     }
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
     try {
-      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/Production/Cocina/login', requestOptions);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to register user');
-      } else {
-        router.push("/home");
-      }
+      } 
+      router.push("/home");
     } catch (error) {
       /* setError(error.message || 'Failed to register user'); */
       console.log(body)
-      /* console.log('Failed', error, body) */
+      console.log('Failed', error, body)
     }
   }
 

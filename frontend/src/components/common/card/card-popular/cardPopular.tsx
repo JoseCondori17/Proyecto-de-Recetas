@@ -5,6 +5,7 @@ import { SaveIcon } from '@/components/icons/SaveIcon';
 import { FavoritesIcon } from '@/components/icons/FavoritesIcon';
 import { FavoritesBoldIcon } from '@/components/icons/FavoritesBoldIcon';
 import { SaveBoldIcon } from '@/components/icons/SaveBoldIcon';
+import Link from "next/link";
 
 interface CardPopularProps {
   recipe: any
@@ -42,14 +43,18 @@ export function CardPopular({ recipe }: CardPopularProps) {
   return (
     <Card className="w-full sm:w-44 md:w-52 xl:w-52 2xl:w-72 h-auto">
       <CardContent className="pl-2 pr-2 pt-2 pb-0">
-        <Image
-          src={recipe.image} 
-          alt={recipe.id}
-          unoptimized
-          width={300}
-          height={200}
-          className='rounded-lg w-full h-auto select-none'
-        />
+        <Link
+          href={`/home/recipes/${recipe.id}`}
+        >
+          <Image
+            src={recipe.image}
+            alt={recipe.id}
+            unoptimized
+            width={300}
+            height={200}
+            className='rounded-lg w-full h-auto select-none'
+          />
+        </Link>
       </CardContent>
       <CardFooter className="flex w-full p-2">
         <div className="flex w-full items-center justify-between text-xs">

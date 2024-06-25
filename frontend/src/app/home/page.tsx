@@ -1,4 +1,3 @@
-// pages/community.tsx
 import Feed from '@/components/community/Feed';
 import Top from '@/components/community/Top';
 import Suggestions from '@/components/community/Suggestions';
@@ -11,8 +10,6 @@ const Community = () => {
       <div className="flex-1 flex flex-col mx-4 my-4 overflow-auto mr-64">
         <Top />
         <div className="flex flex-col space-y-4">
-          <Feed />
-          <Feed />
           <Feed />
         </div>
       </div>

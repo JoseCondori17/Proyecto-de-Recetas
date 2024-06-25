@@ -42,12 +42,13 @@ const SignInForm = () => {
       body: JSON.stringify(body)
     };
     try {
-      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/Production/Cocina/login', requestOptions);
+      const response = await fetch('https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/login', requestOptions);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to register user');
-      } 
-      router.push("/home");
+      } else {
+        router.push("/home");
+      }
     } catch (error) {
       /* setError(error.message || 'Failed to register user'); */
       console.log(body)

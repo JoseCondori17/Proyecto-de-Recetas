@@ -4,26 +4,25 @@ import { useEffect, useState } from "react";
 import LikesComments from "./LikesComments";
 import NewComments from "./NewComments";
 import CommentForm from "./CommentForm";
-import { fetchPosts } from '@/services/api';
+import { fetchPosts, postComment } from '@/services/api';
+import { Post, Comment } from '@/types/types'; // Asegúrate de que la ruta sea correcta
 
-type Comment = {
-  id: number;
-  user: string;
-  text: string;
-};
+// Función para calcular la diferencia en días o en horas
+const calculateTimeAgo = (dateString: string, timeString: string): string => {
+  const postDateTime = new Date(`${dateString}T${timeString}`);
+  const currentTime = new Date();
+  const diffInMs = currentTime.getTime() - postDateTime.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60)); // Convertir milisegundos a horas
 
-type Post = {
-  Post_id: number;
-  Imagen: string;
-  Fecha: string;
-  Usuario_id: number;
-  Hora: string;
-  Likes: number;
-  Contenido: string;
+  if (diffInHours >= 24) {
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `hace ${diffInDays} ${diffInDays > 1 ? 'días' : 'día'}`;
+  } else {
+    return `hace ${diffInHours} ${diffInHours > 1 ? 'horas' : 'hora'}`;
+  }
 };
 
 const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,13 +50,25 @@ const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
     getPosts();
   }, []);
 
-  const addComment = (comment: string) => {
-    const newComment = {
-      id: comments.length + 1,
-      user: 'User', // Aquí puedes usar el nombre del usuario actual
-      text: comment,
+  const addComment = async (postId: number, comment: string) => {
+    const newComment: Omit<Comment, 'Comentario_id'> = {
+      Usuario_id: 1, // Cambia esto para obtener el usuario actual
+      Post_id: postId,
+      Contenido: comment,
+      Fecha: new Date().toISOString().split('T')[0], // Fecha actual
+      Hora: new Date().toLocaleTimeString(), // Hora actual
+      Likes: 0, // Inicializar con 0 likes
     };
-    setComments([...comments, newComment]);
+
+    try {
+      await postComment(newComment);
+      const updatedPosts = posts.map(post =>
+        post.Post_id === postId ? { ...post, Comments: [...(post.Comments || []), { ...newComment, Comentario_id: Math.random() }] } : post
+      );
+      setPosts(updatedPosts);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
 
   if (loading) {
@@ -72,23 +83,31 @@ const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (
     <div className={`bg-white rounded-lg p-4 mt-4 shadow-md ${className} flex flex-col space-y-4`}>
       {Array.isArray(posts) && posts.length > 0 ? (
-        posts.map((post) => (
-          <div key={post.Post_id} className="flex-1 pr-10 flex flex-col mb-4"> {/* Columna izquierda con contenido y formulario */}
-            <div>
-              <div className="border-b pb-4 mb-4">
+        posts.map((post) => {
+          const timeAgo = calculateTimeAgo(post.Fecha, post.Hora);
+          return (
+            <div key={post.Post_id} className="flex flex-col mb-4 space-y-4">
+              {/* Primera fila: Nombre de usuario y contenido */}
+              <div>
                 <h2 className="text-xl font-bold">{`Usuario ${post.Usuario_id}`}</h2>
                 <p>{post.Contenido}</p>
+                <p className="text-gray-500">{`Publicado ${timeAgo}`}</p>
+              </div>
+              {/* Segunda fila: Imagen y columna para likes, comentarios y lista de comentarios */}
+              <div className={`flex ${post.Imagen ? 'space-x-4' : ''}`}>
+                {post.Imagen && <img src={post.Imagen} alt={`Imagen del post ${post.Post_id}`} className="w-1/2 h-auto" />}
+                <div className={`${post.Imagen ? 'w-1/2' : 'w-full'} flex flex-col items-end space-y-2`}>
+                  <LikesComments comments={post.Comments || []} likes={post.Likes} />
+                  <NewComments comments={post.Comments || []} />
+                </div>
+              </div>
+              {/* Tercera fila: Cajón de comentarios */}
+              <div className="mt-auto">
+                <CommentForm onAddComment={(comment) => addComment(post.Post_id, comment)} />
               </div>
             </div>
-            <div className="mt-auto"> {/* Asegura que el CommentForm esté en la parte inferior */}
-              <CommentForm onAddComment={addComment} />
-            </div>
-            <div className="w-[300px] ml-auto flex flex-col items-end"> {/* Columna derecha con LikesComments y NewComments */}
-              <LikesComments comments={comments} likes={post.Likes} /> {/* Pasar la lista de comentarios y el número de "likes" */}
-              <NewComments comments={comments} />
-            </div>
-          </div>
-        ))
+          );
+        })
       ) : (
         <div>No posts available</div>
       )}

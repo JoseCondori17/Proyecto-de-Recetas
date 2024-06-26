@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type CommentFormProps = {
-  onAddComment: (comment: string) => void;
+  onAddComment: (comment: string) => Promise<void>; // Asegurarnos de que onAddComment sea una función asíncrona
 };
 
 const CommentForm: React.FC<CommentFormProps> = ({ onAddComment }) => {

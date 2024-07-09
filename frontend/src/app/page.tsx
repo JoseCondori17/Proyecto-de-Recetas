@@ -2,6 +2,7 @@
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {Start} from "@/features/home/screens/start";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -21,7 +22,11 @@ export default function Home() {
             <li>Pricing</li>
             <li>Contact</li>
           </ul>
-          <Button variant={'outline'}>Login</Button>
+          <Button variant={'outline'}>
+            <Link href='/auth/login'>
+              Login
+            </Link>
+          </Button>
         </nav>
       </header>
       <main>

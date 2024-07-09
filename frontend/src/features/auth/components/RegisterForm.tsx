@@ -1,0 +1,117 @@
+'use client'
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  AuthRegister,
+  registerSchema
+} from "@/interfaces/auth";
+import {registerUser} from "@/features/auth/service/api";
+import {useRouter} from "next/navigation";
+
+export function RegisterForm(){
+  const router = useRouter();
+  const form = useForm<AuthRegister>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  async function onSubmit(values: AuthRegister) {
+    const response = await registerUser(values);
+
+    if (!response.ok) {
+      console.error(response.message);
+      throw new Error(response.message);
+    } else {
+      router.push("/view/community");
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-5'}>
+        <FormField
+          render={({field}) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className={'h-10'}
+                  type={'text'}
+                  placeholder={'Enter your username'} {...field} />
+              </FormControl>
+              <FormMessage></FormMessage>
+            </FormItem>
+          )}
+          name={"username"}
+          control={form.control}
+        />
+        <FormField
+          render={({field}) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className={'h-10'}
+                  type={'email'}
+                  placeholder={'Enter your email'} {...field} />
+              </FormControl>
+              <FormMessage></FormMessage>
+            </FormItem>
+          )}
+          name={"email"}
+          control={form.control}
+        />
+        <FormField
+          render={({field}) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className={'h-10'}
+                  type={'password'}
+                  placeholder={'Enter your password'} {...field} />
+              </FormControl>
+              <FormMessage></FormMessage>
+            </FormItem>
+          )}
+          name={"password"}
+          control={form.control}
+        />
+        <FormField
+          render={({field}) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className={'h-10'}
+                  type={'password'}
+                  placeholder={'Enter again your password'} {...field} />
+              </FormControl>
+              <FormMessage></FormMessage>
+            </FormItem>
+          )}
+          name={"confirmPassword"}
+          control={form.control}
+        />
+        <Button type={'submit'} className={'w-full'} size={'lg'}>Register</Button>
+        <div className={'flex justify-center items-center mx-auto space-x-1'}>
+          <span className={'opacity-85'}>Dont have an account?</span>
+          <Link
+            className={'text-blue-700 cursor-pointer'}
+            href="/auth/sign-in">Sign In</Link>
+        </div>
+      </form>
+    </Form>
+  );
+};

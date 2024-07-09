@@ -1,34 +1,22 @@
-import {CardPost} from "@/features/community/components/CardPost";
-import {CarouselStatus} from "@/features/community/components/CarouselStatus";
-import {CardNewPost} from "@/features/community/components/CardNewPost";
-
-import {CardPostTest} from "@/constants/test";
-import {Input} from "@/components/ui/input";
-import {Search01Icon} from "hugeicons-react";
+import Feed from "@/components/community/Feed";
+import Top from "@/components/community/Top";
+import Suggestions from "@/components/community/Suggestions";
+import Recommendations from "@/components/community/Recommendations";
 
 export function CommunityScreen(){
   return (
-    <div className="flex flex-col w-full max-w-2xl mx-auto px-2 gap-4">
-      <div className={'flex items-center gap-1 border rounded-xl p-1 pl-3 pr-3'}>
-        <Search01Icon size={'20'}></Search01Icon>
-        <Input placeholder={'Search in RIIKO'} className={'focus-visible:ring-0 border-0 shadow-none'}/>
+    <div>
+      <div className="w-16 bg-gray-200 flex-shrink-0"></div>
+      <div className="flex-1 flex flex-col mx-4 my-4 overflow-auto mr-64">
+        <Top/>
+        <div className="flex flex-col space-y-4">
+          <Feed/>
+        </div>
       </div>
-      <CarouselStatus></CarouselStatus>
-      <CardNewPost></CardNewPost>
-      {
-        CardPostTest.map((post, index) => (
-          <CardPost key={index}
-                    avatar={post.avatar}
-                    author={post.author}
-                    age={post.age}
-                    time={post.time}
-                    country={post.country}
-                    title={post.title}
-                    image={post.image}
-                    description={post.description}
-          ></CardPost>
-        ))
-      }
+      <div
+        className="w-64 bg-white flex-shrink-0 fixed top-0 right-0 h-screen flex flex-col justify-between px-4 py-4 overflow-y-auto right-sidebar">
+        <Suggestions/>
+      </div>
     </div>
   );
 }

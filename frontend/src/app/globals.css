@@ -74,3 +74,48 @@
     @apply bg-background text-foreground;
   }
 }
+
+.post-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.post-box textarea {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.post-actions label {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.post-actions button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.post-actions button:hover {
+  background-color: #0056b3;
+}

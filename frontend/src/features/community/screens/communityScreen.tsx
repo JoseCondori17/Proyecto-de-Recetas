@@ -1,6 +1,7 @@
 import Feed from "@/components/community/Feed";
 import Top from "@/components/community/Top";
 import Suggestions from "@/components/community/Suggestions";
+import PostBox from "@/components/community/PostBox";
 import Recommendations from "@/components/community/Recommendations";
 
 export function CommunityScreen(){
@@ -9,8 +10,9 @@ export function CommunityScreen(){
       <div className="w-16 bg-gray-200 flex-shrink-0"></div>
       <div className="flex-1 flex flex-col mx-4 my-4 overflow-auto mr-64">
         <Top/>
+        <PostBox/>
         <div className="flex flex-col space-y-4">
-          <Feed/>
+          
         </div>
       </div>
       <div

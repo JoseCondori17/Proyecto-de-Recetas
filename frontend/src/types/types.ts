@@ -1,20 +1,21 @@
-export type Comment = {
-  Post_id: number;
-  Comentario_id: number;
-  Fecha: string;
-  Usuario_id: number;
-  Hora: string;
-  Likes: number;
-  Contenido: string;
-};
-
 export interface Post {
-  Post_id: number;
+  Post_id?: number; 
   Usuario_id: number;
+  Username: string;
   Contenido: string;
-  Imagen?: string; // Campo opcional para la URL de la imagen
+  Imagen?: string;
   Likes: number;
   Fecha: string;
   Hora: string;
   Comments?: Comment[];
+}
+
+export interface Comment {
+  Comentario_id: number;
+  Usuario_id: number;
+  Post_id: number;
+  Contenido: string;
+  Likes: number;
+  Fecha: string;
+  Hora: string;
 }

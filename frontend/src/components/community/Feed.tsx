@@ -88,7 +88,7 @@ const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
             <div key={post.Post_id} className="flex flex-col mb-4 space-y-4">
               {/* Primera fila: Nombre de usuario y contenido */}
               <div>
-                <h2 className="text-xl font-bold">{`Usuario ${post.Usuario_id}`}</h2>
+                <h2 className="text-xl font-bold">{post.Username || `Usuario ${post.Usuario_id}`}</h2>
                 <p>{post.Contenido}</p>
                 <p className="text-gray-500">{`Publicado ${timeAgo}`}</p>
               </div>
@@ -102,7 +102,9 @@ const Feed: React.FC<{ className?: string }> = ({ className = "" }) => {
               </div>
               {/* Tercera fila: Cajón de comentarios */}
               <div className="mt-auto">
-                <CommentForm onAddComment={(comment) => addComment(post.Post_id, comment)} />
+                {post.Post_id !== undefined && (
+                  <CommentForm onAddComment={(comment) => addComment(post.Post_id as number, comment)} />
+                )}
               </div>
             </div>
           );

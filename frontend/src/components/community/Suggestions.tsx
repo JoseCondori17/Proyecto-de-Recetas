@@ -1,4 +1,5 @@
 // components/Suggestions.tsx
+"use client";
 import React, { useEffect, useState } from 'react';
 import { fetchUsers } from '@/services/api';
 interface User {

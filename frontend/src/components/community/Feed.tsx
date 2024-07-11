@@ -7,7 +7,12 @@ import { postComment } from '@/services/api';
 import { Post, Comment } from '@/types/types';
 import {calculateTimeAgo} from "@/lib/util/functionstls";
 
-const Feed: React.FC<{ posts: Post[], className?: string }> = ({ posts, className = "" }) => {
+interface FeedProps {
+  posts: Post[];
+  className?: string;
+}
+
+const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
   const [error, setError] = useState<string | null>(null);
 
   const addComment = async (postId: number, comment: string) => {
@@ -36,34 +41,37 @@ const Feed: React.FC<{ posts: Post[], className?: string }> = ({ posts, classNam
 
   return (
     <div className={`bg-white rounded-lg p-4 mt-4 shadow-md ${className} flex flex-col space-y-4`}>
-      {Array.isArray(posts) && posts.length > 0 ? (
-        posts.map((post) => {
-          const timeAgo = calculateTimeAgo(post.Fecha, post.Hora);
-          return (
-            <div key={post.Post_id} className="flex flex-col mb-4 space-y-4">
-              <div>
-                <h2 className="text-xl font-bold">{post.Username || `Usuario ${post.Usuario_id}`}</h2>
-                <p>{post.Contenido}</p>
-                <p className="text-gray-500">{`Publicado ${timeAgo}`}</p>
-              </div>
-              <div className={`flex ${post.Imagen ? 'space-x-4' : ''}`}>
-                {post.Imagen && <img src={`data:image/jpeg;base64,${post.Imagen}`} alt={`Imagen del post ${post.Post_id}`} className="w-1/2 h-auto" />}
-                <div className={`${post.Imagen ? 'w-1/2' : 'w-full'} flex flex-col items-end space-y-2`}>
-                  <LikesComments comments={post.Comments || []} likes={post.Likes} />
-                  <NewComments comments={post.Comments || []} />
-                </div>
-              </div>
-              <div className="mt-auto">
-                {post.Post_id !== undefined && (
-                  <CommentForm onAddComment={(comment) => addComment(post.Post_id as number, comment)} />
-                )}
-              </div>
+      {posts.map((post) => {
+        if (!post || !post.Fecha || !post.Hora || !post.Username) {
+          console.error("Post con datos incompletos:", post);
+          return null;
+        }
+
+        const timeAgo = calculateTimeAgo(post.Fecha, post.Hora);
+        return (
+          <div key={post.Post_id} className="flex flex-col mb-4 space-y-4">
+            <div>
+              <h2 className="text-xl font-bold">{post.Username || `Usuario ${post.Usuario_id}`}</h2>
+              <p>{post.Contenido}</p>
+              <p className="text-gray-500">{`Publicado ${timeAgo}`}</p>
             </div>
-          );
-        })
-      ) : (
-        <div>No posts available</div>
-      )}
+            {post.Imagen && (
+              <img src={post.Imagen} alt={`Imagen del post ${post.Post_id}`} className="w-full h-auto" />
+            )}
+            <div>
+              <LikesComments comments={post.Comments || []} likes={post.Likes} />
+              <NewComments comments={post.Comments || []} />
+            </div>
+            <div className="mt-auto">
+              {post.Post_id !== undefined ? (
+                <CommentForm onAddComment={(comment) => addComment(post.Post_id, comment)} />
+              ) : (
+                <p className="text-red-500">Error: Post ID is undefined</p>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

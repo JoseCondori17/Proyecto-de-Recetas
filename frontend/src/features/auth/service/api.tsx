@@ -23,7 +23,7 @@ export async function verifyLogin(values: AuthLogin): Promise<ResponseData> {
   };
 
   try {
-    const response = await fetch('https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Usuario/Login', requestOptions);
+    const response = await fetch('https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/login', requestOptions);
     const data = await response.json();
     const responseBody = JSON.parse(data.body);
 
@@ -71,7 +71,7 @@ export async function registerUser(values: AuthRegister): Promise<ResponseData> 
   };
 
   try {
-    const response = await fetch('https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Usuario/Register', requestOptions);
+    const response = await fetch('https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/register', requestOptions);
     const dataRegister = await response.json();
     if (dataRegister.statusCode === 200) {
       return { ok: true };

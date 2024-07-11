@@ -6,6 +6,7 @@ const COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/
 const POST_COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Comentario/Comentario/Cocina/Comentario';
 const USER_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario';
 const INCREMENT_LIKES_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post/likes/incrementar';
+const INCREMENT_FOLLOWERS_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/likes/incrementar';
 
 interface User {
   id: string;
@@ -150,6 +151,19 @@ export const incrementLikes = async (postId: number, usuarioId: number) => {
     return response.data;
   } catch (error) {
     console.error('Error incrementing likes:', error);
+    throw error;
+  }
+};
+
+export const incrementFollowers = async (userId: number) => {
+  try {
+    const response = await axios.put(INCREMENT_FOLLOWERS_URL, {
+      Usuario_id: userId
+    });
+    console.log('Increment followers response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error incrementing followers:', error);
     throw error;
   }
 };

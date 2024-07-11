@@ -51,8 +51,15 @@ export async function verifyLogin(values: AuthLogin): Promise<ResponseData> {
 export async function registerUser(values: AuthRegister): Promise<ResponseData> {
   const body = {
     Username: values.username,
+    Nombre_y_apellidos: values.fullName,
     Correo_electronico: values.email,
     Contrasena: values.password,
+    Edad: 0,
+    Fecha_de_nacimiento: "1998-07-08",
+    Sexo: "",
+    Presentacion: "I am a new user at RIKKO",
+    Num_seguidores: 0,
+    Num_seguidos: 0,
   };
 
   const requestOptions: RequestInit = {
@@ -66,7 +73,6 @@ export async function registerUser(values: AuthRegister): Promise<ResponseData> 
   try {
     const response = await fetch('https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Usuario/Register', requestOptions);
     const dataRegister = await response.json();
-
     if (dataRegister.statusCode === 200) {
       return { ok: true };
     } else if (dataRegister.statusCode === 401) {

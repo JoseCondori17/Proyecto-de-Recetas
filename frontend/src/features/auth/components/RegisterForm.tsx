@@ -16,13 +16,13 @@ import {
   registerSchema
 } from "@/interfaces/auth";
 import {registerUser} from "@/features/auth/service/api";
-import {useRouter} from "next/navigation";
+import {redirect} from "next/navigation";
 
 export function RegisterForm(){
-  const router = useRouter();
   const form = useForm<AuthRegister>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      fullName: "",
       username: "",
       email: "",
       password: "",
@@ -32,18 +32,32 @@ export function RegisterForm(){
 
   async function onSubmit(values: AuthRegister) {
     const response = await registerUser(values);
-
+    console.log(response);
     if (!response.ok) {
       console.error(response.message);
-      throw new Error(response.message);
     } else {
-      router.push("/view/community");
+      redirect('/api/auth/signin')
     }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-5'}>
+        <FormField
+          render={({field}) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className={'h-10'}
+                  type={'text'}
+                  placeholder={'Enter your full name'} {...field} />
+              </FormControl>
+              <FormMessage></FormMessage>
+            </FormItem>
+          )}
+          name={"fullName"}
+          control={form.control}
+        />
         <FormField
           render={({field}) => (
             <FormItem>
@@ -74,36 +88,38 @@ export function RegisterForm(){
           name={"email"}
           control={form.control}
         />
-        <FormField
-          render={({field}) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  className={'h-10'}
-                  type={'password'}
-                  placeholder={'Enter your password'} {...field} />
-              </FormControl>
-              <FormMessage></FormMessage>
-            </FormItem>
-          )}
-          name={"password"}
-          control={form.control}
-        />
-        <FormField
-          render={({field}) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  className={'h-10'}
-                  type={'password'}
-                  placeholder={'Enter again your password'} {...field} />
-              </FormControl>
-              <FormMessage></FormMessage>
-            </FormItem>
-          )}
-          name={"confirmPassword"}
-          control={form.control}
-        />
+        <div className={'flex gap-2'}>
+          <FormField
+            render={({field}) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className={'h-10'}
+                    type={'password'}
+                    placeholder={'Password'} {...field} />
+                </FormControl>
+                <FormMessage></FormMessage>
+              </FormItem>
+            )}
+            name={"password"}
+            control={form.control}
+          />
+          <FormField
+            render={({field}) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className={'h-10'}
+                    type={'password'}
+                    placeholder={'Confirm password'} {...field} />
+                </FormControl>
+                <FormMessage></FormMessage>
+              </FormItem>
+            )}
+            name={"confirmPassword"}
+            control={form.control}
+          />
+        </div>
         <Button type={'submit'} className={'w-full'} size={'lg'}>Register</Button>
         <div className={'flex justify-center items-center mx-auto space-x-1'}>
           <span className={'opacity-85'}>Dont have an account?</span>

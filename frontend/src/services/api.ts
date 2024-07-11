@@ -67,8 +67,15 @@ export const postNewPost = async (post: NewPost) => {
 
 export const fetchCommentsForPost = async (postId: number): Promise<Comment[]> => {
   try {
-    const response = await axios.get(COMMENT_API_URL.replace('{Post_id}', postId.toString()));
+    const url = COMMENT_API_URL.replace('{Post_id}', postId.toString());
+    const response = await axios.get(url);
     console.log(`Fetched comments for post ${postId}:`, response.data);
+    
+    // Asegurarse de que response.data es un arreglo
+    if (!response.data || !Array.isArray(response.data)) {
+      throw new Error('Invalid response format');
+    }
+    
     return response.data;
   } catch (error) {
     console.error(`Error fetching comments for post ID: ${postId}`, error);
@@ -76,7 +83,8 @@ export const fetchCommentsForPost = async (postId: number): Promise<Comment[]> =
   }
 };
 
-export const postComment = async (comment: Omit<Comment, 'Comentario_id'>) => {
+
+export const postComment = async (comment: Omit<Comment, 'Comentario_id'>, username: string) => {
   try {
     const response = await axios.post(POST_COMMENT_API_URL, {
       Usuario_id: comment.Usuario_id,
@@ -84,7 +92,12 @@ export const postComment = async (comment: Omit<Comment, 'Comentario_id'>) => {
       Contenido: comment.Contenido,
       Likes: comment.Likes,
       Fecha: comment.Fecha,
-      Hora: comment.Hora
+      Hora: comment.Hora,
+      Username: username // Incluyendo el campo 'Username'
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     console.log('Post comment response from API:', response.data);
     return response.data;

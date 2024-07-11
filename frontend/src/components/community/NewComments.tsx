@@ -1,4 +1,4 @@
-import { Comment } from '@/types/types'; // Asegúrate de que la ruta sea correcta
+import { Comment } from '@/types/types';
 
 type NewCommentsProps = {
   comments: Comment[];

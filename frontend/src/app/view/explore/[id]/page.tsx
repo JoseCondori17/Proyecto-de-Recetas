@@ -1,15 +1,15 @@
+import {DetailRecipeScreen} from "@/features/explore/screens/detailRecipeScreen";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
-import {SettingScreen} from "@/features/configuration/screens/settingScreen";
 
-export default async function Setting(){
+export default async function DetailsRecipe({ params }: { params: { id: string } }){
   const session = await getServerSession(authOptions)
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/view/community');
   }
 
   return (
-    <SettingScreen></SettingScreen>
+    <DetailRecipeScreen id={params.id}></DetailRecipeScreen>
   );
 }

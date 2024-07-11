@@ -7,7 +7,6 @@ import { ItemSideBar } from "@/layouts/nav/sidebar/item";
 
 import {
   Calendar01Icon,
-  Notification01Icon,
   LayoutLeftIcon,
   LayoutRightIcon,
   Settings02Icon,
@@ -15,10 +14,13 @@ import {
   UserCircleIcon,
   DiscoverCircleIcon
 } from "hugeicons-react";
+import {useSession} from "next-auth/react";
 
 export function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => { setIsOpen(!isOpen); };
+  const { data: session } = useSession();
+  const userId = session?.user.id;
 
   return (
     <aside className={clsx('flex w-full shrink-0 select-none transition-all duration-500 ease-out',
@@ -41,8 +43,7 @@ export function SideBar() {
           <ItemSideBar href={'/view/community'} name={'Community'} icon={Home02Icon} isOpen={isOpen}></ItemSideBar>
           <ItemSideBar href={'/view/explore'} name={'Explore'} icon={DiscoverCircleIcon} isOpen={isOpen}></ItemSideBar>
           <ItemSideBar href={'/view/calendar'} name={'Calendar'} icon={Calendar01Icon} isOpen={isOpen}></ItemSideBar>
-          <ItemSideBar href={'/view/profile/1'} name={'Profile'} icon={UserCircleIcon} isOpen={isOpen}></ItemSideBar> {/*verifcar el params*/}
-          {/*<ItemSideBar href={'/view/notification'} name={'Notifications'} icon={Notification01Icon} isOpen={isOpen}></ItemSideBar>*/}
+          <ItemSideBar href={`/view/profile/${userId}`} name={'Profile'} icon={UserCircleIcon} isOpen={isOpen}></ItemSideBar> {/*verifcar el params*/}
           <ItemSideBar href={'/view/setting'} name={'Setting'} icon={Settings02Icon} isOpen={isOpen}></ItemSideBar>
         </ul>
       </nav>

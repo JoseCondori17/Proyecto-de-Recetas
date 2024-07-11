@@ -1,8 +1,11 @@
+'use client'
+import {SessionProvider} from "next-auth/react";
 import { SideBar } from "@/layouts/nav/sidebar/sidebar";
 import {Separator} from "@/components/ui/separator";
 
 export default function ViewLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
   return (
+    <SessionProvider>
     <div className={'flex flex-col lg:flex-row min-h-screen bg-white'}> {/* min-h-screen*/}
       <SideBar></SideBar>
       <Separator className={'h-auto'} orientation={'vertical'}></Separator>
@@ -13,5 +16,6 @@ export default function ViewLayout({children,}: Readonly<{ children: React.React
         </main>
       </div>
     </div>
+    </SessionProvider>
   );
 }

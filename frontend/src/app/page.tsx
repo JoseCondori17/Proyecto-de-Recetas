@@ -23,7 +23,7 @@ export default function Home() {
             <li>Contact</li>
           </ul>
           <Button variant={'outline'}>
-            <Link href='/auth/login'>
+            <Link href='/auth/sign-in'>
               Login
             </Link>
           </Button>

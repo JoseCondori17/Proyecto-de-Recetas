@@ -17,27 +17,29 @@ import {
   loginSchema
 } from "@/interfaces/auth";
 import {useRouter} from "next/navigation";
-import {verifyLogin} from "@/features/auth/service/api";
+import {signIn} from "next-auth/react";
 
 export function LoginForm() {
-  const router = useRouter()
+  const router = useRouter();
+
   const form = useForm<AuthLogin>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  });
+  })
 
   async function onSubmit(values: AuthLogin) {
-
-    const response = await verifyLogin(values);
-
-    if (!response.ok) {
-      console.error(response.message);
-      throw new Error(response.message);
+    const result = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
+    if (result?.error) {
+      console.error(result.error)
     } else {
-      router.push("/view/community");
+      router.push('/view/community');
     }
   }
 

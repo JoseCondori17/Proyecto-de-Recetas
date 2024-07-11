@@ -72,6 +72,7 @@ const BlurImage = ({ card }: { card: Card }) => {
         loaded ? "blur-none" : "blur-md"
       )}
       alt="thumbnail"
+      priority
     />
   );
 };

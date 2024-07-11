@@ -51,6 +51,19 @@ const Feed: React.FC<{ posts: Post[], className?: string }> = ({ posts, classNam
     <div className={`bg-white rounded-lg p-4 mt-4 shadow-md ${className} flex flex-col space-y-4`}>
       {Array.isArray(posts) && posts.length > 0 ? (
         posts.map((post) => {
+          // Asegurarse de que post esté bien definido y tenga las propiedades necesarias
+          if (!post || !post.Fecha || !post.Hora) {
+            return (
+              <div key={post?.Post_id || Math.random()} className="flex flex-col mb-4 space-y-4">
+                <div>
+                  <h2 className="text-xl font-bold">{post?.Username || `Usuario ${post?.Usuario_id || 'desconocido'}`}</h2>
+                  <p>{post?.Contenido || 'Contenido no disponible'}</p>
+                  <p className="text-gray-500">Fecha desconocida</p>
+                </div>
+              </div>
+            );
+          }
+
           const timeAgo = calculateTimeAgo(post.Fecha, post.Hora);
           return (
             <div key={post.Post_id} className="flex flex-col mb-4 space-y-4">
@@ -60,7 +73,13 @@ const Feed: React.FC<{ posts: Post[], className?: string }> = ({ posts, classNam
                 <p className="text-gray-500">{`Publicado ${timeAgo}`}</p>
               </div>
               <div className={`flex ${post.Imagen ? 'space-x-4' : ''}`}>
-                {post.Imagen && <img src={`data:image/jpeg;base64,${post.Imagen}`} alt={`Imagen del post ${post.Post_id}`} className="w-1/2 h-auto" />}
+                {post.Imagen && (
+                  post.Imagen.startsWith('http') ? (
+                    <img src={post.Imagen} alt={`Imagen del post ${post.Post_id}`} className="w-1/2 h-auto" />
+                  ) : (
+                    <img src={`data:image/jpeg;base64,${post.Imagen}`} alt={`Imagen del post ${post.Post_id}`} className="w-1/2 h-auto" />
+                  )
+                )}
                 <div className={`${post.Imagen ? 'w-1/2' : 'w-full'} flex flex-col items-end space-y-2`}>
                   <LikesComments comments={post.Comments || []} likes={post.Likes} />
                   <NewComments comments={post.Comments || []} />

@@ -40,7 +40,7 @@ export function CommunityScreen() {
   }, []);
 
   const addPost = (newPost: Post) => {
-    setPosts([newPost, ...posts]);
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 
   return (

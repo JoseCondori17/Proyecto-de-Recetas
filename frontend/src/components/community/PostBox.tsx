@@ -46,15 +46,15 @@ const PostBox: React.FC<{ user: { Usuario_id: number; Username: string }, addPos
         const reader = new FileReader();
         reader.onloadend = async () => {
           post.Imagen = reader.result?.toString().split(',')[1] || ''; // Convertir a base64
-          const newPost = await postNewPost(post);
-          addPost(newPost); // Agregar el nuevo post al estado
+          const response = await postNewPost(post);
+          addPost(response.post); // Agregar el nuevo post al estado
           setPostContent('');
           setImage(null);
         };
         reader.readAsDataURL(image);
       } else {
-        const newPost = await postNewPost(post);
-        addPost(newPost); // Agregar el nuevo post al estado
+        const response = await postNewPost(post);
+        addPost(response.post); // Agregar el nuevo post al estado
         setPostContent('');
       }
     } catch (err) {

@@ -37,14 +37,14 @@ const PostBox: React.FC<{ user: { Usuario_id: number; Username: string } }> = ({
       Likes: 0,
       Fecha: new Date().toISOString().split('T')[0],
       Hora: new Date().toLocaleTimeString(),
-      Imagen: '',
+      Imagen: '', // Este campo se llenará si hay imagen
     };
 
     try {
       if (image) {
         const reader = new FileReader();
         reader.onloadend = async () => {
-          post.Imagen = reader.result as string;
+          post.Imagen = reader.result?.toString().split(',')[1] || ''; // Convertir a base64
           await postNewPost(post);
           setPostContent('');
           setImage(null);

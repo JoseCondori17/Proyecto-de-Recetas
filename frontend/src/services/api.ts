@@ -84,6 +84,21 @@ export const fetchCommentsForPost = async (postId: number): Promise<Comment[]> =
 export const postNewPost = async (post: Omit<Post, 'Post_id'>) => {
   try {
     console.log('Posting new post:', post);
+    // Si hay imagen, se hace el encode en base64
+    if (post.Imagen && typeof post.Imagen !== 'string') {
+      const reader = new FileReader();
+      const imageFile = post.Imagen;
+      post.Imagen = await new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          if (reader.result) {
+            resolve(reader.result.toString().split(',')[1]);
+          } else {
+            reject('Error converting image to base64');
+          }
+        };
+        reader.readAsDataURL(imageFile);
+      });
+    }
     const response = await axios.post(API_URL, post);
     console.log('Post New Post Response:', response);
     return response.data;

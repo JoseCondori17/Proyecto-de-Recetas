@@ -3,7 +3,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { FaImage } from 'react-icons/fa';
 import { Button } from "@/components/ui/button";
-import { postNewPost } from '@/services/api'; // Asegúrate de que la ruta sea correcta
+import { postNewPost, NewPost } from '@/services/api'; 
 import { Post } from '@/types/types';
 
 const PostBox: React.FC<{ user: { Usuario_id: number; Username: string }, addPost: (post: Post) => void }> = ({ user, addPost }) => {
@@ -31,32 +31,28 @@ const PostBox: React.FC<{ user: { Usuario_id: number; Username: string }, addPos
     setLoading(true);
     setError(null);
 
-    const post = {
+    const currentDateTime = new Date();
+    const formattedDate = currentDateTime.toISOString().split('T')[0];
+    const formattedTime = currentDateTime.toTimeString().split(' ')[0];
+
+    const post: NewPost = {
       Usuario_id: user.Usuario_id,
       Username: user.Username,
       Contenido: postContent,
       Likes: 0,
-      Fecha: new Date().toISOString().split('T')[0],
-      Hora: new Date().toLocaleTimeString(),
-      Imagen: '', // Este campo se llenará si hay imagen
+      Fecha: formattedDate,
+      Hora: formattedTime,
+      Imagen: image || '',
     };
 
+    console.log('Post data before sending:', post);
+
     try {
-      if (image) {
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          post.Imagen = reader.result?.toString().split(',')[1] || ''; // Convertir a base64
-          const response = await postNewPost(post);
-          addPost(response.post); // Agregar el nuevo post al estado
-          setPostContent('');
-          setImage(null);
-        };
-        reader.readAsDataURL(image);
-      } else {
-        const response = await postNewPost(post);
-        addPost(response.post); // Agregar el nuevo post al estado
-        setPostContent('');
-      }
+      const response = await postNewPost(post);
+      console.log('Response from API:', response);
+      addPost(response.post);
+      setPostContent('');
+      setImage(null);
     } catch (err) {
       setError("Error al registrar el post");
       console.error("Error al registrar el post:", err);

@@ -8,7 +8,7 @@ interface RecipesResponse {
 
 export async function getRecipes(): Promise<RecipeInterface[]> {
   try {
-    const response = await fetch('https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Recipes', {
+    const response = await fetch('https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Recetas/Recetas', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

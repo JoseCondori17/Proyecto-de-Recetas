@@ -13,7 +13,7 @@ export async function getProfile(id: string): Promise<ResponseData> {
   };
 
   try {
-    const response = await fetch(`https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Usuario/${id}`, requestOptions);
+    const response = await fetch(`https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/${id}`, requestOptions);
     const data = await response.json();
 
     if (!response.ok) {
@@ -44,7 +44,7 @@ export async function getPostUser(id: string): Promise<ResponseData> {
   };
 
   try {
-    const response = await fetch(`https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/PostUser/${id}`, requestOptions);
+    const response = await fetch(`https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/PostUser/PostUser/${id}`, requestOptions);
     const data = await response.json();
 
     if (!response.ok) {

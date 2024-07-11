@@ -4,12 +4,15 @@ import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {Comment02Icon, FavouriteIcon, Share08Icon} from "hugeicons-react";
 import {Separator} from "@/components/ui/separator";
+import {calculateTimeAgo} from "@/lib/util/functionstls";
 
 interface CardPostProps {
-  avatar: string
+  avatar?: string
   author: string
   age?: number
-  time: number
+  time: string
+  date: string
+  likes: number
   country: string
   title: string
   image?: string | null
@@ -20,16 +23,21 @@ export function CardPost({avatar,
                          author,
                          age,
                          time,
+                         date,
+                         likes,
                          country,
                          title,
                          image,
                          description,}: CardPostProps) {
+
+  const publication_time = calculateTimeAgo(date,time);
+
   return (
     <Card>
       <CardHeader className={'flex flex-row items-center gap-4 p-4 pb-0'}>
         <Avatar>
           <AvatarImage src={avatar} alt="user-profile" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback className={'uppercase'}>{author[0]}</AvatarFallback>
         </Avatar>
         <div className={'flex flex-col justify-center text-xs'}>
           <div className={'flex items-center gap-2'}>
@@ -38,7 +46,7 @@ export function CardPost({avatar,
             <span className={'opacity-70'}>{age} years</span>
           </div>
           <div className={'flex items-center gap-2'}>
-            <p className={'opacity-70'}>{time} min</p>
+            <p className={'opacity-70'}>{publication_time}</p>
             <span className={'opacity-55'}>•</span>
             <span className={'opacity-70'}>{country}</span>
           </div>
@@ -60,8 +68,9 @@ export function CardPost({avatar,
         <Separator></Separator>
       </div>
       <CardFooter className={'flex items-center justify-between p-2'}>
-        <Button variant={'ghost'} className={'w-1/3 opacity-70'}>
+        <Button variant={'ghost'} className={'flex gap-2 w-1/3 opacity-70'}>
           <FavouriteIcon></FavouriteIcon>
+          <span className={'text-sm'}>{likes}</span>
         </Button>
         <Button variant={'ghost'} className={'w-1/3 opacity-70'}>
           <Comment02Icon></Comment02Icon>

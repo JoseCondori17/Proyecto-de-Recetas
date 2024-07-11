@@ -15,10 +15,12 @@ import {
   CardContent, CardDescription,
 } from "@/components/ui/card";
 import {ParallaxScrollDemo} from "@/features/profile/components/ParallaxScrollDemo";
-import {getProfile} from "@/features/profile/service/api";
+import {getPostUser, getProfile} from "@/features/profile/service/api";
+import {CardPost} from "@/features/community/components/CardPost";
 
 export async function ProfileScreen({id}: {id: string}) {
   const response = await getProfile(id);
+  const posts = await getPostUser(id);
 
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto px-2 gap-4">
@@ -27,7 +29,7 @@ export async function ProfileScreen({id}: {id: string}) {
         <div className="flex flex-col items-center lg:flex-row lg:items-start gap-4 -mt-16">
           <Avatar className="w-32 h-32 lg:w-36 lg:h-36 border-4 border-white">
             <AvatarImage src={id} alt="profile"/>
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback className={'uppercase'}>{response.data.Username[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-center lg:items-start lg:translate-y-14 lg:justify-center">
             <span className="text-xl font-semibold">{response.data.Nombre_y_apellidos}</span>
@@ -85,7 +87,25 @@ export async function ProfileScreen({id}: {id: string}) {
               <TabsTrigger value="like">Likes</TabsTrigger>
               <TabsTrigger value="save">Save</TabsTrigger>
             </TabsList>
-            <TabsContent value="post">uno</TabsContent>
+            <TabsContent value="post" className={'flex-grow'}>
+              {
+                posts.data && (
+                  posts.data.map((post: any, index: number) => (
+                    <CardPost
+                      key={index}
+                      avatar={''}
+                      author={post.Username}
+                      time={post.Hora}
+                      date={post.Fecha}
+                      likes={post.Likes}
+                      country={''}
+                      title={''}
+                      description={post.Contenido}
+                    />
+                  ))
+                )
+              }
+            </TabsContent>
             <TabsContent value="like">dos</TabsContent>
             <TabsContent value="save">tres</TabsContent>
           </Tabs>

@@ -24,8 +24,16 @@ export interface NewPost {
 export const fetchPosts = async (): Promise<Post[]> => {
   try {
     const response = await axios.get(API_URL);
-    console.log('Fetched posts:', response.data);
-    return response.data;
+    console.log('Fetched posts response:', response.data);
+
+    if (!response.data || !Array.isArray(response.data.body)) {
+      console.error('Fetched posts is not an array:', response.data);
+      throw new Error('Fetched posts is not an array');
+    }
+
+    const posts = response.data.body;
+    console.log('Fetched posts:', posts);
+    return posts;
   } catch (error) {
     console.error('Error fetching posts:', error);
     throw error;

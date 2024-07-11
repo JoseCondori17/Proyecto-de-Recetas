@@ -1,9 +1,16 @@
+// api.ts
 import axios from 'axios';
-import { Post, Comment } from '@/types/types'; // Asegúrate de que la ruta sea correcta
+import { Post, Comment } from '@/types/types'; 
 
 const API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Post/Cocina/Post';
 const COMMENT_API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Post/Cocina/Post/{Post_id}';
 const POST_COMMENT_API_URL = 'https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/comentario';
+const USER_API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Usuario/Usuario'; // Cambiado a tu URL de la API
+
+interface User {
+  id: string;
+  name: string;
+}
 
 export const fetchPosts = async (): Promise<Post[]> => {
   try {
@@ -105,5 +112,29 @@ export const postNewPost = async (post: Omit<Post, 'Post_id'>) => {
   } catch (error) {
     console.error('Error posting new post:', error);
     throw error;
+  }
+};
+
+export const fetchUsers = async (): Promise<User[]> => {
+  try {
+    const response = await axios.get(USER_API_URL);
+    console.log('User API Response:', response);
+
+    // Depurar la estructura de la respuesta
+    console.log('Response Data:', response.data);
+
+    // Obtener la lista de usuarios desde response.data.Items
+    const parsedBody = JSON.parse(response.data.body);
+    const users = parsedBody.Items;
+
+    console.log('Parsed Users:', users);
+
+    return users.map((user: any) => ({
+      id: user.Usuario_id,
+      name: user.Username
+    }));
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
   }
 };

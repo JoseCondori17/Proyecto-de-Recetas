@@ -4,8 +4,9 @@ import React, { useState, ChangeEvent } from 'react';
 import { FaImage } from 'react-icons/fa';
 import { Button } from "@/components/ui/button";
 import { postNewPost } from '@/services/api'; // Asegúrate de que la ruta sea correcta
+import { Post } from '@/types/types';
 
-const PostBox: React.FC<{ user: { Usuario_id: number; Username: string } }> = ({ user }) => {
+const PostBox: React.FC<{ user: { Usuario_id: number; Username: string }, addPost: (post: Post) => void }> = ({ user, addPost }) => {
   const [postContent, setPostContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -45,13 +46,15 @@ const PostBox: React.FC<{ user: { Usuario_id: number; Username: string } }> = ({
         const reader = new FileReader();
         reader.onloadend = async () => {
           post.Imagen = reader.result?.toString().split(',')[1] || ''; // Convertir a base64
-          await postNewPost(post);
+          const newPost = await postNewPost(post);
+          addPost(newPost); // Agregar el nuevo post al estado
           setPostContent('');
           setImage(null);
         };
         reader.readAsDataURL(image);
       } else {
-        await postNewPost(post);
+        const newPost = await postNewPost(post);
+        addPost(newPost); // Agregar el nuevo post al estado
         setPostContent('');
       }
     } catch (err) {

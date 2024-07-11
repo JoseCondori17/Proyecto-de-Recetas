@@ -7,6 +7,7 @@ const POST_COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws
 const USER_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario';
 const INCREMENT_LIKES_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post/likes/incrementar';
 const INCREMENT_FOLLOWERS_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/likes/incrementar';
+const GET_USER_BY_ID_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario/{Usuario_id}';
 
 interface User {
   id: string;
@@ -164,6 +165,24 @@ export const incrementFollowers = async (userId: number) => {
     return response.data;
   } catch (error) {
     console.error('Error incrementing followers:', error);
+    throw error;
+  }
+};
+
+export const fetchUserById = async (userId: number) => {
+  try {
+    const url = GET_USER_BY_ID_URL.replace('{Usuario_id}', userId.toString());
+    const response = await axios.get(url);
+    console.log('Fetched user by ID response:', response.data);
+    
+    // Verificar si response.data es un array y obtener el primer elemento
+    if (Array.isArray(response.data) && response.data.length > 0) {
+      return response.data[0];
+    } else {
+      throw new Error('User not found or invalid response format');
+    }
+  } catch (error) {
+    console.error(`Error fetching user by ID: ${userId}`, error);
     throw error;
   }
 };

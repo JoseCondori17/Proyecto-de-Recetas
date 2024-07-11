@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import { FaThumbsUp } from 'react-icons/fa';
 import LikesComments from "./LikesComments";
 import NewComments from "./NewComments";
 import CommentForm from "./CommentForm";
-import { fetchCommentsForPost, postComment } from '@/services/api';
+import { fetchCommentsForPost, postComment, incrementLikes } from '@/services/api';
 import { Post, Comment } from '@/types/types';
 import { calculateTimeAgo } from "@/lib/util/functionstls";
 
@@ -16,6 +17,7 @@ const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
   const [error, setError] = useState<string | null>(null);
   const [storedUser, setStoredUser] = useState<{ Usuario_id: number, Username: string } | null>(null);
   const [comments, setComments] = useState<{ [key: number]: Comment[] }>({});
+  const [updatedPosts, setUpdatedPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const user = localStorage.getItem('currentUser');
@@ -23,7 +25,8 @@ const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
       setStoredUser(JSON.parse(user));
       console.log('Usuario recuperado de localStorage:', JSON.parse(user));
     }
-  }, []);
+    setUpdatedPosts(posts); // Inicializar updatedPosts con los posts recibidos como props
+  }, [posts]);
 
   const fetchComments = async (postId: number) => {
     try {
@@ -67,6 +70,25 @@ const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
     }
   };
 
+  const handleLike = async (postId: number) => {
+    if (!storedUser) {
+      setError('Usuario no encontrado en localStorage');
+      return;
+    }
+
+    try {
+      const updatedPost = await incrementLikes(postId, storedUser.Usuario_id);
+      setUpdatedPosts((prevPosts) => 
+        prevPosts.map((post) =>
+          post.Post_id === postId ? { ...post, Likes: updatedPost.nueva_cantidad } : post
+        )
+      );
+    } catch (error) {
+      console.error('Error incrementing likes:', error);
+      setError('Error incrementing likes');
+    }
+  };
+
   if (error) {
     console.log(error);
     return <div>{error}</div>;
@@ -74,7 +96,7 @@ const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
 
   return (
     <div className={`bg-white rounded-lg p-4 mt-4 shadow-md ${className} flex flex-col space-y-4`}>
-      {posts.map((post) => {
+      {updatedPosts.map((post) => {
         if (!post || !post.Fecha || !post.Hora || !post.Username) {
           console.error("Post con datos incompletos:", post);
           return null;
@@ -91,6 +113,12 @@ const Feed: React.FC<FeedProps> = ({ posts, className = "" }) => {
             {post.Imagen && (
               <img src={post.Imagen} alt={`Imagen del post ${post.Post_id}`} className="w-full h-auto" />
             )}
+            <div className="flex items-center">
+              <button onClick={() => handleLike(post.Post_id)} className="text-blue-500 mr-2">
+                <FaThumbsUp />
+              </button>
+              <span>{post.Likes}</span>
+            </div>
             <div>
               <LikesComments comments={comments[post.Post_id] || []} likes={post.Likes} />
               <NewComments comments={comments[post.Post_id] || []} />

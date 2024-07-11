@@ -5,6 +5,7 @@ const API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/pos
 const COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post/{Post_id}';
 const POST_COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Comentario/Comentario/Cocina/Comentario';
 const USER_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario';
+const INCREMENT_LIKES_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post/likes/incrementar';
 
 interface User {
   id: string;
@@ -83,7 +84,6 @@ export const fetchCommentsForPost = async (postId: number): Promise<Comment[]> =
   }
 };
 
-
 export const postComment = async (comment: Omit<Comment, 'Comentario_id'>, username: string) => {
   try {
     const response = await axios.post(POST_COMMENT_API_URL, {
@@ -137,5 +137,19 @@ export const fetchUsers = async (): Promise<User[]> => {
       console.error('Unknown error fetching users:', error);
       throw new Error('An unknown error occurred while fetching the users.');
     }
+  }
+};
+
+export const incrementLikes = async (postId: number, usuarioId: number) => {
+  try {
+    const response = await axios.put(INCREMENT_LIKES_URL, {
+      Post_id: postId,
+      Usuario_id: usuarioId
+    });
+    console.log('Increment likes response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error incrementing likes:', error);
+    throw error;
   }
 };

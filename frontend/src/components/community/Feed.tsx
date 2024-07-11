@@ -5,20 +5,7 @@ import NewComments from "./NewComments";
 import CommentForm from "./CommentForm";
 import { postComment } from '@/services/api';
 import { Post, Comment } from '@/types/types';
-
-const calculateTimeAgo = (dateString: string, timeString: string): string => {
-  const postDateTime = new Date(`${dateString}T${timeString}`);
-  const currentTime = new Date();
-  const diffInMs = currentTime.getTime() - postDateTime.getTime();
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-
-  if (diffInHours >= 24) {
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `hace ${diffInDays} ${diffInDays > 1 ? 'días' : 'día'}`;
-  } else {
-    return `hace ${diffInHours} ${diffInHours > 1 ? 'horas' : 'hora'}`;
-  }
-};
+import {calculateTimeAgo} from "@/lib/util/functionstls";
 
 interface FeedProps {
   posts: Post[];

@@ -5,7 +5,6 @@ import Feed from "@/components/community/Feed";
 import Top from "@/components/community/Top";
 import Suggestions from "@/components/community/Suggestions";
 import PostBox from "@/components/community/PostBox";
-import Recommendations from "@/components/community/Recommendations";
 import { Post } from '@/types/types';
 import { fetchPosts } from '@/services/api';
 

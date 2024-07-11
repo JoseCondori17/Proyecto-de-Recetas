@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 
 export function ItemSideBar({ href, name, icon: Icon, isOpen }: ItemProps){
   const pathName = usePathname();
-  const isActive = pathName.includes(href); /* === */
+  const isActive = pathName.includes(href) || pathName===href; /* === */
 
   return (
     <li>

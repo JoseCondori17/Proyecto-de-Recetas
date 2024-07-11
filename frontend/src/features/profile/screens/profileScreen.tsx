@@ -15,8 +15,11 @@ import {
   CardContent, CardDescription,
 } from "@/components/ui/card";
 import {ParallaxScrollDemo} from "@/features/profile/components/ParallaxScrollDemo";
+import {getProfile} from "@/features/profile/service/api";
 
-export function ProfileScreen({id}: {id: string}) {
+export async function ProfileScreen({id}: {id: string}) {
+  const response = await getProfile(id);
+
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto px-2 gap-4">
       <div className="w-full h-64 bg-gray-500 rounded-xl"></div>
@@ -27,8 +30,8 @@ export function ProfileScreen({id}: {id: string}) {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-center lg:items-start lg:translate-y-14 lg:justify-center">
-            <span className="text-xl font-semibold">Juan Jose</span>
-            <span className="text-gray-500">@juanjo24</span>
+            <span className="text-xl font-semibold">{response.data.Nombre_y_apellidos}</span>
+            <span className="text-gray-500">@{response.data.Username}</span>
           </div>
         </div>
         <div className="flex items-center gap-4 mt-6 lg:mt-0">
@@ -50,7 +53,7 @@ export function ProfileScreen({id}: {id: string}) {
               <CardTitle>About me</CardTitle>
             </CardHeader>
             <Separator/>
-            <CardDescription className={'p-4'}>Hola mi gente</CardDescription>
+            <CardDescription className={'p-4'}>{response.data.Presentacion}</CardDescription>
             <Separator/>
             <CardContent className="space-y-2 p-4">
               <div className="flex flex-col text-sm text-gray-500 gap-2">

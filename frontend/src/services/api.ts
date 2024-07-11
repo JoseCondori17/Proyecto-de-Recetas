@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { Post, Comment } from '@/types/types'; 
 
-const API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Post/Cocina/Post';
-const COMMENT_API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Post/Cocina/Post/{Post_id}';
-const POST_COMMENT_API_URL = 'https://h0z4t4u2d9.execute-api.us-east-1.amazonaws.com/PostUserr/Cocina/comentario';
-const USER_API_URL = 'https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Usuario/Usuario';
+const API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post';
+const COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/post/post/{Post_id}';
+const POST_COMMENT_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Comentario/Comentario/Cocina/Comentario';
+const USER_API_URL = 'https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Usuario/Usuario';
 
 interface User {
   id: string;
@@ -94,15 +94,27 @@ export const postComment = async (comment: Omit<Comment, 'Comentario_id'>) => {
 export const fetchUsers = async (): Promise<User[]> => {
   try {
     const response = await axios.get(USER_API_URL);
-    const parsedBody = JSON.parse(response.data.body);
-    const users = parsedBody.Items;
+
+    console.log('Response from API:', response);
+
+    if (!response.data || !Array.isArray(response.data.Items)) {
+      console.error('Invalid response format:', response.data);
+      throw new Error('Invalid response format');
+    }
+
+    const users = response.data.Items;
     console.log('Fetched users:', users);
     return users.map((user: any) => ({
       id: user.Usuario_id,
       name: user.Username
     }));
   } catch (error) {
-    console.error('Error fetching users:', error);
-    return [];
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error fetching users:', error.response ? error.response.data : error.message);
+      throw new Error(error.response ? error.response.data : error.message);
+    } else {
+      console.error('Unknown error fetching users:', error);
+      throw new Error('An unknown error occurred while fetching the users.');
+    }
   }
 };

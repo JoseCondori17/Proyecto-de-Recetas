@@ -62,7 +62,7 @@ export async function getPopularRecipes(): Promise<RecipeInterface[]> {
 
 export async function getRecipeId(id: string): Promise<RecipeInterface> {
   try {
-    const response = await fetch(`https://zsf3957lq6.execute-api.us-east-1.amazonaws.com/Recetas/Recipes/${id}`, {
+    const response = await fetch(`https://71c30bu5xl.execute-api.us-east-1.amazonaws.com/Recetas/Recetas/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
